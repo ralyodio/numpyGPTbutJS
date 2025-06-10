@@ -45,16 +45,16 @@
 - [x] Create tokenizer module index file
 
 ## Utilities (src/utils/)
-- [ ] Implement training utilities (training.js) - equivalent to training.py
-  - [ ] TrainingMonitor class
-  - [ ] clip_grad_norm function
-  - [ ] get_lr function
-  - [ ] setup_logger function
-- [ ] Implement visualization utilities (vis.js) - equivalent to vis.py
-  - [ ] MetricsLogger class
-  - [ ] Training curve plotting
-- [ ] Implement DataLoader (data/dataloader.js) - equivalent to dataloader.py
-- [ ] Create utils module index files
+- [x] Implement training utilities (training.js) - equivalent to training.py
+  - [x] TrainingMonitor class
+  - [x] clip_grad_norm function
+  - [x] get_lr function
+  - [x] setup_logger function
+- [x] Implement visualization utilities (vis.js) - equivalent to vis.py
+  - [x] MetricsLogger class
+  - [x] Training curve plotting
+- [x] Implement DataLoader (data/dataloader.js) - equivalent to dataloader.py
+- [x] Create utils module index files
 
 ## Main Scripts
 - [x] Implement data generation script (datagen.js) - equivalent to datagen.py
