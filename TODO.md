@@ -17,7 +17,7 @@
 - [x] Implement PositionalEncoding (positional.js) - equivalent to positional.py
 - [x] Implement MultiHeadAttention (attention.js) - equivalent to attention.py
 - [x] Implement FeedForward (feedforward.js) - equivalent to feedforward.py
-- [ ] Implement TransformerBlock (transformer.js) - equivalent to transformer.py
+- [x] Implement TransformerBlock (transformer.js) - equivalent to transformer.py
 
 ## Neural Network Functional (src/nn/)
 - [ ] Implement cross_entropy_loss function (functional.js) - equivalent to functional.py
