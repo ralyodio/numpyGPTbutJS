@@ -60,7 +60,7 @@ export class Linear extends Module {
             const originalShape = [X.rows, X.columns];
             const XReshaped = X.reshape(X.rows * X.columns / this.inFeatures, this.inFeatures);
             const out = XReshaped.mmul(this.W).add(this.b);
-            
+
             // Reshape back to (B, T, out_features)
             const newRows = originalShape[0];
             const newCols = this.outFeatures;
@@ -85,7 +85,7 @@ export class Linear extends Module {
             // Y = XW + b, so ∂Y/∂W = X^T, ∂Y/∂b = I, ∂Y/∂X = W^T
             this.dW = X.transpose().mmul(dZ);  // ∂L/∂W = X^T @ ∂L/∂Y
             this.db = dZ.sum('column');        // ∂L/∂b = Σ ∂L/∂Y
-            
+
             return dZ.mmul(this.W.transpose()); // ∂L/∂X = ∂L/∂Y @ W^T
         } else {
             // 3D case - flatten and process
@@ -108,8 +108,8 @@ export class Linear extends Module {
      */
     params() {
         return {
-            "W": this.W,
-            "b": this.b
+            'W': this.W,
+            'b': this.b,
         };
     }
 
@@ -119,8 +119,8 @@ export class Linear extends Module {
      */
     grads() {
         return {
-            "W": this.dW,
-            "b": this.db
+            'W': this.dW,
+            'b': this.db,
         };
     }
 }

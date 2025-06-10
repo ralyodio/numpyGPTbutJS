@@ -16,7 +16,11 @@
     "test": "node test.js",
     "test:nn": "node tests/test_nn/test_modules.js",
     "test:optim": "node tests/test_optim/test_optimizer.js",
-    "test:tokenizer": "node tests/test_tokenizer/test_tokenizer.js"
+    "test:tokenizer": "node tests/test_tokenizer/test_tokenizer.js",
+    "lint": "eslint src/ *.js",
+    "lint:fix": "eslint src/ *.js --fix",
+    "format": "prettier --write src/ *.js",
+    "format:check": "prettier --check src/ *.js"
   },
   "repository": {
     "type": "git",
@@ -33,5 +37,12 @@
     "chalk": "^5.4.1",
     "fs-extra": "^11.3.0",
     "ml-matrix": "^6.12.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "prettier": "^3.5.3"
   }
 }

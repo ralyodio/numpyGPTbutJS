@@ -46,10 +46,10 @@ export class Embedding extends Module {
 
         const B = indices.length;
         const T = indices[0].length;
-        
+
         // Create output matrix (B, T, embed_dim)
         const output = [];
-        
+
         for (let b = 0; b < B; b++) {
             const batchOutput = [];
             for (let t = 0; t < T; t++) {
@@ -85,7 +85,7 @@ export class Embedding extends Module {
     backward(dZ) {
         // Initialize gradient matrix
         this.dW = Matrix.zeros(this.vocabSize, this.embedDim);
-        
+
         const indices = this.cacheInput;
         const B = indices.length;
         const T = indices[0].length;
@@ -99,7 +99,7 @@ export class Embedding extends Module {
             for (let t = 0; t < T; t++) {
                 const tokenIdx = indices[b][t];
                 const grad = dZArray[idx];
-                
+
                 // Add gradient to the corresponding embedding row
                 // We add the gradients to the corresponding rows of the weight matrix W.
                 // Since Z[i, j] = W[X[i, j]], the gradient ∂L/∂W[k] is the sum of ∂L/∂Z[i, j]
@@ -109,7 +109,7 @@ export class Embedding extends Module {
                     currentRow[d] += grad[d];
                 }
                 this.dW.setRow(tokenIdx, currentRow);
-                
+
                 idx++;
             }
         }
@@ -124,7 +124,7 @@ export class Embedding extends Module {
      */
     params() {
         return {
-            "W": this.W
+            'W': this.W,
         };
     }
 
@@ -134,7 +134,7 @@ export class Embedding extends Module {
      */
     grads() {
         return {
-            "W": this.dW
+            'W': this.dW,
         };
     }
 }

@@ -60,7 +60,7 @@ export class LayerNorm extends Module {
             const meanVal = mean.get(i, 0);
             const varVal = variance.get(i, 0);
             const stdDev = Math.sqrt(varVal + this.eps);
-            
+
             for (let j = 0; j < features; j++) {
                 const normalized = (X.get(i, j) - meanVal) / stdDev;
                 XNorm.set(i, j, normalized);
@@ -80,10 +80,10 @@ export class LayerNorm extends Module {
 
         // Cache values for backward pass
         this.cache = {
-            X: X,
-            mean: mean,
-            variance: variance,
-            XNorm: XNorm
+            X,
+            mean,
+            variance,
+            XNorm,
         };
 
         return out;
@@ -113,12 +113,12 @@ export class LayerNorm extends Module {
         for (let j = 0; j < N; j++) {
             let dgammaSum = 0;
             let dbetaSum = 0;
-            
+
             for (let i = 0; i < batchSize; i++) {
                 dgammaSum += dZ.get(i, j) * XNorm.get(i, j);
                 dbetaSum += dZ.get(i, j);
             }
-            
+
             this.dgamma.set(0, j, dgammaSum);
             this.dbeta.set(0, j, dbetaSum);
         }
@@ -137,11 +137,11 @@ export class LayerNorm extends Module {
             let sum = 0;
             const meanVal = mean.get(i, 0);
             const varVal = variance.get(i, 0);
-            
+
             for (let j = 0; j < N; j++) {
                 sum += dXNorm.get(i, j) * (X.get(i, j) - meanVal);
             }
-            
+
             dVar.set(i, 0, sum * (-0.5) * Math.pow(varVal + this.eps, -1.5));
         }
 
@@ -150,21 +150,21 @@ export class LayerNorm extends Module {
         for (let i = 0; i < batchSize; i++) {
             const varVal = variance.get(i, 0);
             const meanVal = mean.get(i, 0);
-            
+
             // Direct effect of mean on normalized values
             let directSum = 0;
             for (let j = 0; j < N; j++) {
                 directSum += dXNorm.get(i, j);
             }
             const directEffect = directSum * (-1) / Math.sqrt(varVal + this.eps);
-            
+
             // Indirect effect through variance
             let indirectSum = 0;
             for (let j = 0; j < N; j++) {
                 indirectSum += -2 * (X.get(i, j) - meanVal);
             }
             const indirectEffect = dVar.get(i, 0) * indirectSum / N;
-            
+
             dMean.set(i, 0, directEffect + indirectEffect);
         }
 
@@ -175,13 +175,13 @@ export class LayerNorm extends Module {
             const meanVal = mean.get(i, 0);
             const dMeanVal = dMean.get(i, 0);
             const dVarVal = dVar.get(i, 0);
-            
+
             for (let j = 0; j < N; j++) {
                 // Three components of the gradient
                 const comp1 = dXNorm.get(i, j) / Math.sqrt(varVal + this.eps);
                 const comp2 = dMeanVal / N;
                 const comp3 = dVarVal * 2 * (X.get(i, j) - meanVal) / N;
-                
+
                 dX.set(i, j, comp1 + comp2 + comp3);
             }
         }
@@ -195,8 +195,8 @@ export class LayerNorm extends Module {
      */
     params() {
         return {
-            "gamma": this.gamma,
-            "beta": this.beta
+            'gamma': this.gamma,
+            'beta': this.beta,
         };
     }
 
@@ -206,8 +206,8 @@ export class LayerNorm extends Module {
      */
     grads() {
         return {
-            "gamma": this.dgamma,
-            "beta": this.dbeta
+            'gamma': this.dgamma,
+            'beta': this.dbeta,
         };
     }
 }

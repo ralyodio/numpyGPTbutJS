@@ -12,16 +12,16 @@ export class Module {
      * @param {*} x - Input data
      * @returns {*} - Output data
      */
-    forward(x) {
+    forward(_x) {
         throw new Error('forward method must be implemented by subclass');
     }
 
     /**
      * Backward pass - must be implemented by subclasses
-     * @param {*} grad - Gradient from next layer
+     * @param {*} _grad - Gradient from next layer
      * @returns {*} - Gradient w.r.t input
      */
-    backward(grad) {
+    backward(_grad) {
         throw new Error('backward method must be implemented by subclass');
     }
 

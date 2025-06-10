@@ -24,17 +24,17 @@ export class Softmax extends Module {
         // Apply softmax to each row
         for (let i = 0; i < rows; i++) {
             const row = X.getRow(i);
-            
+
             // Softmax trick for numerical stability: subtract max
             const maxVal = Math.max(...row);
             const shiftedRow = row.map(x => x - maxVal);
-            
+
             // Compute exponentials
             const expRow = shiftedRow.map(x => Math.exp(x));
-            
+
             // Compute sum of exponentials
             const sumExp = expRow.reduce((sum, val) => sum + val, 0);
-            
+
             // Normalize
             const softmaxRow = expRow.map(x => x / sumExp);
             result.setRow(i, softmaxRow);
@@ -56,13 +56,13 @@ export class Softmax extends Module {
             const YHat = this.cacheOutput;
             const batchSize = YHat.rows;
             const numClasses = YHat.columns;
-            
+
             // Create one-hot encoded true labels
             const Y = Matrix.zeros(batchSize, numClasses);
             for (let i = 0; i < batchSize; i++) {
                 Y.set(i, YTrue[i], 1);
             }
-            
+
             // Compute gradient: (ŷ - y) / N
             const result = Matrix.zeros(batchSize, numClasses);
             for (let i = 0; i < batchSize; i++) {
@@ -78,22 +78,22 @@ export class Softmax extends Module {
             const softmaxOutput = this.cacheOutput;
             const rows = softmaxOutput.rows;
             const cols = softmaxOutput.columns;
-            
+
             const result = Matrix.zeros(rows, cols);
-            
+
             for (let i = 0; i < rows; i++) {
                 // For each sample, compute: σ_i(∂L/∂σ_i - Σ_j ∂L/∂σ_j·σ_j)
                 let sumTerm = 0;
                 for (let j = 0; j < cols; j++) {
                     sumTerm += dZ.get(i, j) * softmaxOutput.get(i, j);
                 }
-                
+
                 for (let j = 0; j < cols; j++) {
                     const grad = softmaxOutput.get(i, j) * (dZ.get(i, j) - sumTerm);
                     result.set(i, j, grad);
                 }
             }
-            
+
             return result;
         }
     }
@@ -124,18 +124,18 @@ export class ReLU extends Module {
      */
     forward(X) {
         this.cacheInput = X;
-        
+
         const rows = X.rows;
         const cols = X.columns;
         const result = Matrix.zeros(rows, cols);
-        
+
         // Apply ReLU: max(0, x)
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
                 result.set(i, j, Math.max(0, X.get(i, j)));
             }
         }
-        
+
         return result;
     }
 
@@ -149,7 +149,7 @@ export class ReLU extends Module {
         const rows = X.rows;
         const cols = X.columns;
         const result = Matrix.zeros(rows, cols);
-        
+
         // ReLU derivative: 1 if x > 0, else 0
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
@@ -157,7 +157,7 @@ export class ReLU extends Module {
                 result.set(i, j, dZ.get(i, j) * grad);
             }
         }
-        
+
         return result;
     }
 
@@ -188,11 +188,11 @@ export class LeakyReLU extends Module {
      */
     forward(X) {
         this.cacheInput = X;
-        
+
         const rows = X.rows;
         const cols = X.columns;
         const result = Matrix.zeros(rows, cols);
-        
+
         // Apply Leaky ReLU: x if x > 0, else α*x
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
@@ -200,7 +200,7 @@ export class LeakyReLU extends Module {
                 result.set(i, j, val > 0 ? val : this.alpha * val);
             }
         }
-        
+
         return result;
     }
 
@@ -214,7 +214,7 @@ export class LeakyReLU extends Module {
         const rows = X.rows;
         const cols = X.columns;
         const result = Matrix.zeros(rows, cols);
-        
+
         // Leaky ReLU derivative: 1 if x > 0, else α
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
@@ -222,7 +222,7 @@ export class LeakyReLU extends Module {
                 result.set(i, j, dZ.get(i, j) * grad);
             }
         }
-        
+
         return result;
     }
 
