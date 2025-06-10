@@ -1,0 +1,11 @@
+{
+  "inputFile": "data/test.txt",
+  "tokenizerType": "bpe",
+  "vocabSize": 100,
+  "trainSplit": 0.9,
+  "trainSize": 373,
+  "valSize": 42,
+  "totalSize": 415,
+  "textLength": 549,
+  "createdAt": "2025-06-10T16:36:34.711Z"
+}

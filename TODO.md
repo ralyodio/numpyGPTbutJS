@@ -20,29 +20,29 @@
 - [x] Implement TransformerBlock (transformer.js) - equivalent to transformer.py
 
 ## Neural Network Functional (src/nn/)
-- [ ] Implement cross_entropy_loss function (functional.js) - equivalent to functional.py
-- [ ] Implement softmax function (functional.js) - equivalent to functional.py
-- [ ] Create nn module index file (__init__.js equivalent)
+- [x] Implement cross_entropy_loss function (functional.js) - equivalent to functional.py
+- [x] Implement softmax function (functional.js) - equivalent to functional.py
+- [x] Create nn module index file (__init__.js equivalent)
 
 ## GPT Model (src/models/)
-- [ ] Implement GPT class (GPT.js) - equivalent to GPT.py
-- [ ] Implement forward pass with causal masking
-- [ ] Implement backward pass with explicit gradients
-- [ ] Implement text generation method
-- [ ] Implement parameter and gradient collection methods
+- [x] Implement GPT class (GPT.js) - equivalent to GPT.py
+- [x] Implement forward pass with causal masking
+- [x] Implement backward pass with explicit gradients
+- [x] Implement text generation method
+- [x] Implement parameter and gradient collection methods
 
 ## Optimizers (src/optim/)
-- [ ] Implement base Optimizer class (optimizer.js) - equivalent to optimizer.py
-- [ ] Implement Adam optimizer (adam.js) - equivalent to adam.py
-- [ ] Implement learning rate scheduler base class (lr_scheduler/lr_scheduler.js)
-- [ ] Implement StepLR scheduler (lr_scheduler/step_lr.js) - equivalent to step_lr.py
-- [ ] Implement WarmupCosineLR scheduler (lr_scheduler/warmup_cosine_lr.js) - equivalent to warmup_cosine_lr.py
+- [x] Implement base Optimizer class (optimizer.js) - equivalent to optimizer.py
+- [x] Implement Adam optimizer (adam.js) - equivalent to adam.py
+- [x] Implement learning rate scheduler base class (lr_scheduler/lr_scheduler.js)
+- [x] Implement StepLR scheduler (lr_scheduler/step_lr.js) - equivalent to step_lr.py
+- [x] Implement WarmupCosineLR scheduler (lr_scheduler/warmup_cosine_lr.js) - equivalent to warmup_cosine_lr.py
 
 ## Tokenizers (src/tokenizer/)
-- [ ] Implement character-level tokenizer (char_level.js) - equivalent to char_level.py
-- [ ] Implement word-level tokenizer (word_level.js) - equivalent to word_level.py
-- [ ] Implement BPE tokenizer (bpe.js) - equivalent to bpe.py
-- [ ] Create tokenizer module index file
+- [x] Implement character-level tokenizer (char_level.js) - equivalent to char_level.py
+- [x] Implement word-level tokenizer (word_level.js) - equivalent to word_level.py
+- [x] Implement BPE tokenizer (bpe.js) - equivalent to bpe.py
+- [x] Create tokenizer module index file
 
 ## Utilities (src/utils/)
 - [ ] Implement training utilities (training.js) - equivalent to training.py
@@ -57,11 +57,11 @@
 - [ ] Create utils module index files
 
 ## Main Scripts
-- [ ] Implement data generation script (datagen.js) - equivalent to datagen.py
-- [ ] Implement training script (train.js) - equivalent to train.py
-- [ ] Implement sampling script (sample.js) - equivalent to sample.py
-- [ ] Implement plotting script (plot.js) - equivalent to plot.py
-- [ ] Implement test runner (test.js) - equivalent to test.py
+- [x] Implement data generation script (datagen.js) - equivalent to datagen.py
+- [x] Implement training script (train.js) - equivalent to train.py
+- [x] Implement sampling script (sample.js) - equivalent to sample.py
+- [x] Implement plotting script (plot.js) - equivalent to plot.py
+- [x] Implement test runner (test.js) - equivalent to test.py
 
 ## Testing Suite (tests/)
 - [ ] Implement neural network module tests (test_nn/) - equivalent to test_nn/

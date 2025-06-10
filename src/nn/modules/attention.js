@@ -95,9 +95,18 @@ export class MultiHeadAttention extends Module {
     const startIdx = headIdx * this.dK;
     const endIdx = startIdx + this.dK;
     
-    const headFeatures = Matrix.zeros(B * T, this.dK);
+    // Validate dimensions
+    const numRows = B * T;
+    if (!Number.isInteger(numRows) || numRows <= 0) {
+      throw new Error(`Invalid dimensions for _extractHead: B=${B}, T=${T}, B*T=${numRows}`);
+    }
+    if (!Number.isInteger(this.dK) || this.dK <= 0) {
+      throw new Error(`Invalid dK: ${this.dK}`);
+    }
     
-    for (let i = 0; i < B * T; i++) {
+    const headFeatures = Matrix.zeros(numRows, this.dK);
+    
+    for (let i = 0; i < numRows; i++) {
       for (let j = 0; j < this.dK; j++) {
         headFeatures.set(i, j, QKV.get(i, startIdx + j));
       }
@@ -151,7 +160,7 @@ export class MultiHeadAttention extends Module {
       if (mask !== null) {
         for (let i = 0; i < T; i++) {
           for (let j = 0; j < T; j++) {
-            scores.set(i, j, scores.get(i, j) + mask[i][j]);
+            scores.set(i, j, scores.get(i, j) + mask.get(i, j));
           }
         }
       }

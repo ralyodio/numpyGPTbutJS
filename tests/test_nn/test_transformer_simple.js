@@ -80,15 +80,16 @@ function testTransformerBlock() {
   // Test 3: Forward pass with causal mask
   console.log('  ✓ Testing forward pass with causal mask...');
   
-  // Create causal mask
-  const mask = [];
+  // Create causal mask as Matrix
+  const maskData = [];
   for (let i = 0; i < T; i++) {
     const row = [];
     for (let j = 0; j < T; j++) {
       row.push(j > i ? -1e9 : 0); // Mask future tokens
     }
-    mask.push(row);
+    maskData.push(row);
   }
+  const mask = new Matrix(maskData);
   
   const maskedOutput = transformer.forward(input, B, T, mask);
   
