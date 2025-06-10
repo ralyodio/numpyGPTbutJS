@@ -160,7 +160,11 @@ export class MultiHeadAttention extends Module {
       if (mask !== null) {
         for (let i = 0; i < T; i++) {
           for (let j = 0; j < T; j++) {
-            scores.set(i, j, scores.get(i, j) + mask.get(i, j));
+            // Handle both Matrix objects and 2D arrays
+            const maskValue = (mask.get && typeof mask.get === 'function')
+              ? mask.get(i, j)
+              : mask[i][j];
+            scores.set(i, j, scores.get(i, j) + maskValue);
           }
         }
       }
