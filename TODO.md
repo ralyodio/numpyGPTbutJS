@@ -16,7 +16,7 @@
 - [x] Implement Softmax activation (activation.js) - equivalent to activation.py
 - [x] Implement PositionalEncoding (positional.js) - equivalent to positional.py
 - [x] Implement MultiHeadAttention (attention.js) - equivalent to attention.py
-- [ ] Implement FeedForward (feedforward.js) - equivalent to feedforward.py
+- [x] Implement FeedForward (feedforward.js) - equivalent to feedforward.py
 - [ ] Implement TransformerBlock (transformer.js) - equivalent to transformer.py
 
 ## Neural Network Functional (src/nn/)
