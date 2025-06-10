@@ -10,10 +10,10 @@
 ## Core Neural Network Modules (src/nn/modules/)
 - [x] Implement base Module class (module.js) - equivalent to module.py
 - [x] Implement Linear layer (linear.js) - equivalent to linear.py
-- [ ] Implement Embedding layer (embedding.js) - equivalent to embedding.py
-- [ ] Implement LayerNorm (layerNorm.js) - equivalent to layerNorm.py
-- [ ] Implement ReLU activation (activation.js) - equivalent to activation.py
-- [ ] Implement Softmax activation (activation.js) - equivalent to activation.py
+- [x] Implement Embedding layer (embedding.js) - equivalent to embedding.py
+- [x] Implement LayerNorm (layerNorm.js) - equivalent to layerNorm.py
+- [x] Implement ReLU activation (activation.js) - equivalent to activation.py
+- [x] Implement Softmax activation (activation.js) - equivalent to activation.py
 - [ ] Implement PositionalEncoding (positional.js) - equivalent to positional.py
 - [ ] Implement MultiHeadAttention (attention.js) - equivalent to attention.py
 - [ ] Implement FeedForward (feedforward.js) - equivalent to feedforward.py
