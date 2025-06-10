@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>numpyGPT JavaScript Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .demo-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: #f7fafc;
+        }
+        
+        .demo-section h2 {
+            color: #2d3748;
+            margin-top: 0;
+            border-bottom: 2px solid #4299e1;
+            padding-bottom: 10px;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #4a5568;
+        }
+        
+        input, select, textarea, button {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #3182ce, #2c5282);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        button:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .output {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+            border: 2px solid #2d3748;
+        }
+        
+        .status {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        .status.info {
+            background: #bee3f8;
+            color: #2c5282;
+            border: 2px solid #4299e1;
+        }
+        
+        .status.success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 2px solid #48bb78;
+        }
+        
+        .status.error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 2px solid #f56565;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4299e1, #3182ce);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metric {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .metric-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4299e1;
+        }
+        
+        .metric-label {
+            color: #718096;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: 600;
+            color: #718096;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            color: #4299e1;
+            border-bottom-color: #4299e1;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 numpyGPT JavaScript</h1>
+        <p class="subtitle">Interactive GPT Training & Text Generation Demo</p>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('training')">Training</button>
+            <button class="tab" onclick="switchTab('generation')">Text Generation</button>
+            <button class="tab" onclick="switchTab('architecture')">Model Architecture</button>
+        </div>
+        
+        <!-- Training Tab -->
+        <div id="training" class="tab-content active">
+            <div class="demo-section">
+                <h2>🏋️ Model Training</h2>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="training-text">Training Text:</label>
+                        <textarea id="training-text" rows="4" placeholder="Enter text to train on...">hello world this is a test of the GPT model training system</textarea>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="vocab-size">Vocabulary Size:</label>
+                        <input type="number" id="vocab-size" value="50" min="10" max="1000">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="d-model">Model Dimension:</label>
+                        <input type="number" id="d-model" value="64" min="32" max="512" step="32">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="n-heads">Attention Heads:</label>
+                        <input type="number" id="n-heads" value="2" min="1" max="8">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="n-layers">Layers:</label>
+                        <input type="number" id="n-layers" value="2" min="1" max="6">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="learning-rate">Learning Rate:</label>
+                        <input type="number" id="learning-rate" value="0.001" min="0.0001" max="0.01" step="0.0001">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="max-iters">Training Steps:</label>
+                        <input type="number" id="max-iters" value="50" min="10" max="200">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="tokenizer-type">Tokenizer:</label>
+                        <select id="tokenizer-type">
+                            <option value="char">Character-level</option>
+                            <option value="word">Word-level</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button id="train-btn" onclick="startTraining()">🚀 Start Training</button>
+                <button id="stop-btn" onclick="stopTraining()" disabled>⏹️ Stop Training</button>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="training-progress"></div>
+                </div>
+                
+                <div id="training-status" class="status info" style="display: none;">
+                    Ready to train...
+                </div>
+                
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value" id="current-loss">0.000</div>
+                        <div class="metric-label">Current Loss</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="avg-loss">0.000</div>
+                        <div class="metric-label">Average Loss</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="learning-rate-display">0.001</div>
+                        <div class="metric-label">Learning Rate</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="training-time">0s</div>
+                        <div class="metric-label">Training Time</div>
+                    </div>
+                </div>
+                
+                <div class="output" id="training-log">Training log will appear here...</div>
+            </div>
+        </div>
+        
+        <!-- Generation Tab -->
+        <div id="generation" class="tab-content">
+            <div class="demo-section">
+                <h2>📝 Text Generation</h2>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="prompt">Prompt:</label>
+                        <input type="text" id="prompt" value="hello" placeholder="Enter prompt text...">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="max-tokens">Max Tokens:</label>
+                        <input type="number" id="max-tokens" value="20" min="1" max="100">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="temperature">Temperature:</label>
+                        <input type="number" id="temperature" value="1.0" min="0.1" max="2.0" step="0.1">
+                    </div>
+                    
+                    <div class="control-group">
+                        <label for="num-samples">Number of Samples:</label>
+                        <input type="number" id="num-samples" value="3" min="1" max="10">
+                    </div>
+                </div>
+                
+                <button id="generate-btn" onclick="generateText()" disabled>✨ Generate Text</button>
+                
+                <div id="generation-status" class="status info" style="display: none;">
+                    Train a model first to enable text generation...
+                </div>
+                
+                <div class="output" id="generation-output">Generated text will appear here...</div>
+            </div>
+        </div>
+        
+        <!-- Architecture Tab -->
+        <div id="architecture" class="tab-content">
+            <div class="demo-section">
+                <h2>🏗️ Model Architecture</h2>
+                
+                <div id="architecture-info" class="output">
+Model architecture information will appear here after training...
+                </div>
+                
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value" id="param-count">0</div>
+                        <div class="metric-label">Parameters</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="model-size">0 KB</div>
+                        <div class="metric-label">Model Size</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="vocab-size-display">0</div>
+                        <div class="metric-label">Vocabulary Size</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="context-length">0</div>
+                        <div class="metric-label">Context Length</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load the bundled numpyGPT library -->
+    <script src="../dist/numpygpt.bundle.js"></script>
+    
+    <script>
+        // Global variables
+        let model = null;
+        let tokenizer = null;
+        let optimizer = null;
+        let trainingData = null;
+        let isTraining = false;
+        let trainingStartTime = null;
+        let trainingInterval = null;
+        let currentStep = 0;
+        let losses = [];
+        
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        // Training functions
+        function startTraining() {
+            try {
+                // Get training parameters
+                const trainingText = document.getElementById('training-text').value;
+                const vocabSize = parseInt(document.getElementById('vocab-size').value);
+                const dModel = parseInt(document.getElementById('d-model').value);
+                const nHeads = parseInt(document.getElementById('n-heads').value);
+                const nLayers = parseInt(document.getElementById('n-layers').value);
+                const lr = parseFloat(document.getElementById('learning-rate').value);
+                const maxIters = parseInt(document.getElementById('max-iters').value);
+                const tokenizerType = document.getElementById('tokenizer-type').value;
+                
+                // Validate inputs
+                if (!trainingText.trim()) {
+                    showStatus('error', 'Please enter training text');
+                    return;
+                }
+                
+                if (dModel % nHeads !== 0) {
+                    showStatus('error', 'Model dimension must be divisible by number of heads');
+                    return;
+                }
+                
+                // Create tokenizer
+                tokenizer = numpyGPT.createTokenizer(tokenizerType);
+                tokenizer.buildVocab(trainingText);
+                
+                // Update vocab size to actual size
+                const actualVocabSize = tokenizer.vocabSize;
+                document.getElementById('vocab-size').value = actualVocabSize;
+                
+                // Create model
+                model = numpyGPT.createModel({
+                    vocabSize: actualVocabSize,
+                    maxLen: 64,
+                    dModel: dModel,
+                    nHeads: nHeads,
+                    nLayers: nLayers
+                });
+                
+                // Create optimizer
+                optimizer = numpyGPT.createOptimizer(model, 'adam', lr);
+                
+                // Prepare training data
+                const tokens = tokenizer.encode(trainingText, false, false);
+                trainingData = tokens;
+                
+                // Update UI
+                document.getElementById('train-btn').disabled = true;
+                document.getElementById('stop-btn').disabled = false;
+                document.getElementById('generate-btn').disabled = false;
+                
+                showStatus('info', 'Training started...');
+                updateArchitectureInfo();
+                
+                // Start training loop
+                isTraining = true;
+                currentStep = 0;
+                losses = [];
+                trainingStartTime = Date.now();
+                
+                // Run training steps
+                runTrainingStep(maxIters);
+                
+            } catch (error) {
+                showStatus('error', `Training failed: ${error.message}`);
+                console.error(error);
+            }
+        }
+        
+        function runTrainingStep(maxIters) {
+            if (!isTraining || currentStep >= maxIters) {
+                stopTraining();
+                return;
+            }
+            
+            try {
+                // Create batch
+                const batchSize = 2;
+                const seqLen = 16;
+                const X = new ml.Matrix(batchSize, seqLen);
+                const Y = new ml.Matrix(batchSize, seqLen);
+                
+                // Fill batch with random sequences
+                for (let b = 0; b < batchSize; b++) {
+                    const startIdx = Math.floor(Math.random() * (trainingData.length - seqLen - 1));
+                    for (let t = 0; t < seqLen; t++) {
+                        X.set(b, t, trainingData[startIdx + t]);
+                        Y.set(b, t, trainingData[startIdx + t + 1]);
+                    }
+                }
+                
+                // Training step
+                const result = numpyGPT.trainStep(model, optimizer, X, Y, {
+                    gradClip: 1.0
+                });
+                
+                // Update metrics
+                losses.push(result.loss);
+                currentStep++;
+                
+                // Update UI
+                updateTrainingMetrics(result.loss, result.lr);
+                updateProgress(currentStep / maxIters);
+                
+                // Log progress
+                if (currentStep % 5 === 0) {
+                    const avgLoss = losses.slice(-10).reduce((a, b) => a + b, 0) / Math.min(10, losses.length);
+                    logTraining(`Step ${currentStep}: loss=${result.loss.toFixed(4)}, avg_loss=${avgLoss.toFixed(4)}, lr=${result.lr.toExponential(2)}`);
+                }
+                
+                // Continue training
+                setTimeout(() => runTrainingStep(maxIters), 10);
+                
+            } catch (error) {
+                showStatus('error', `Training step failed: ${error.message}`);
+                console.error(error);
+                stopTraining();
+            }
+        }
+        
+        function stopTraining() {
+            isTraining = false;
+            document.getElementById('train-btn').disabled = false;
+            document.getElementById('stop-btn').disabled = true;
+            
+            if (currentStep > 0) {
+                showStatus('success', `Training completed! ${currentStep} steps finished.`);
+                logTraining(`\nTraining completed after ${currentStep} steps.`);
+            } else {
+                showStatus('info', 'Training stopped.');
+            }
+        }
+        
+        // Text generation
+        function generateText() {
+            if (!model || !tokenizer) {
+                showStatus('error', 'Please train a model first');
+                return;
+            }
+            
+            try {
+                const prompt = document.getElementById('prompt').value;
+                const maxTokens = parseInt(document.getElementById('max-tokens').value);
+                const temperature = parseFloat(document.getElementById('temperature').value);
+                const numSamples = parseInt(document.getElementById('num-samples').value);
+                
+                showStatus('info', 'Generating text...');
+                
+                let output = `Prompt: "${prompt}"\n\n`;
+                
+                for (let i = 0; i < numSamples; i++) {
+                    const generated = numpyGPT.generateText(model, tokenizer, prompt, maxTokens, temperature);
+                    output += `Sample ${i + 1}: ${generated}\n\n`;
+                }
+                
+                document.getElementById('generation-output').textContent = output;
+                showStatus('success', 'Text generation completed!', 'generation');
+                
+            } catch (error) {
+                showStatus('error', `Generation failed: ${error.message}`, 'generation');
+                console.error(error);
+            }
+        }
+        
+        // UI update functions
+        function updateTrainingMetrics(loss, lr) {
+            document.getElementById('current-loss').textContent = loss.toFixed(4);
+            document.getElementById('learning-rate-display').textContent = lr.toExponential(3);
+            
+            if (losses.length > 0) {
+                const avgLoss = losses.slice(-10).reduce((a, b) => a + b, 0) / Math.min(10, losses.length);
+                document.getElementById('avg-loss').textContent = avgLoss.toFixed(4);
+            }
+            
+            if (trainingStartTime) {
+                const elapsed = (Date.now() - trainingStartTime) / 1000;
+                document.getElementById('training-time').textContent = `${elapsed.toFixed(1)}s`;
+            }
+        }
+        
+        function updateProgress(progress) {
+            const progressBar = document.getElementById('training-progress');
+            progressBar.style.width = `${progress * 100}%`;
+        }
+        
+        function updateArchitectureInfo() {
+            if (!model) return;
+            
+            const params = model.params();
+            let paramCount = 0;
+            
+            for (const param of Object.values(params)) {
+                paramCount += param.rows * param.columns;
+            }
+            
+            document.getElementById('param-count').textContent = (paramCount / 1000).toFixed(1) + 'K';
+            document.getElementById('model-size').textContent = (paramCount * 4 / 1024).toFixed(1) + ' KB';
+            document.getElementById('vocab-size-display').textContent = model.vocabSize;
+            document.getElementById('context-length').textContent = model.maxLen;
+            
+            const archInfo = `Model Architecture:
+- Vocabulary Size: ${model.vocabSize}
+- Model Dimension: ${model.dModel}
+- Attention Heads: ${model.blocks[0].nHeads}
+- Transformer Layers: ${model.blocks.length}
+- Feed-Forward Dimension: ${model.blocks[0].dFF}
+- Maximum Sequence Length: ${model.maxLen}
+- Total Parameters: ${paramCount.toLocaleString()}
+- Estimated Size: ${(paramCount * 4 / 1024).toFixed(1)} KB
+
+Layer Structure:
+1. Token Embedding: ${model.vocabSize} × ${model.dModel}
+2. Positional Encoding: ${model.maxLen} × ${model.dModel}
+3. Transformer Blocks (${model.blocks.length}):
+   - Multi-Head Attention (${model.blocks[0].nHeads} heads)
+   - Feed-Forward Network (${model.dModel} → ${model.blocks[0].dFF} → ${model.dModel})
+   - Layer Normalization
+4. Final Layer Norm: ${model.dModel}
+5. Language Modeling Head: ${model.dModel} × ${model.vocabSize}`;
+            
+            document.getElementById('architecture-info').textContent = archInfo;
+        }
+        
+        function showStatus(type, message, section = 'training') {
+            const statusElement = document.getElementById(`${section}-status`);
+            statusElement.className = `status ${type}`;
+            statusElement.textContent = message;
+            statusElement.style.display = 'block';
+            
+            // Auto-hide after 5 seconds for success/error messages
+            if (type !== 'info') {
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        function logTraining(message) {
+            const logElement = document.getElementById('training-log');
+            logElement.textContent += message + '\n';
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showStatus('info', 'Ready to train! Enter training text and click "Start Training".');
+            logTraining('numpyGPT JavaScript Demo initialized.\nReady for training...');
+        });
+    </script>
+</body>
+</html>

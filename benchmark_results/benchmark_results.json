@@ -1,0 +1,405 @@
+{
+  "timestamp": "2025-06-10T18:55:13.049Z",
+  "nodeVersion": "v22.14.0",
+  "platform": "linux",
+  "arch": "x64",
+  "benchmarks": {
+    "forwardPass": {
+      "tiny": {
+        "config": {
+          "name": "tiny",
+          "vocabSize": 50,
+          "dModel": 64,
+          "nHeads": 2,
+          "nLayers": 2,
+          "dFF": 128,
+          "maxSeqLen": 32
+        },
+        "batchResults": {
+          "1": {
+            "batchSize": 1,
+            "seqLen": 32,
+            "totalTimeMs": 166.069339,
+            "avgTimeMs": 8.30346695,
+            "tokensPerSecond": 3853.8119309308504,
+            "memoryDelta": {
+              "rss": 11186176,
+              "heapUsed": 4123752,
+              "heapTotal": 8650752
+            }
+          },
+          "2": {
+            "batchSize": 2,
+            "seqLen": 32,
+            "totalTimeMs": 279.094766,
+            "avgTimeMs": 13.954738299999999,
+            "tokensPerSecond": 4586.255838276809,
+            "memoryDelta": {
+              "rss": 479232,
+              "heapUsed": -1386000,
+              "heapTotal": 16777216
+            }
+          },
+          "4": {
+            "batchSize": 4,
+            "seqLen": 32,
+            "totalTimeMs": 406.733169,
+            "avgTimeMs": 20.336658449999998,
+            "tokensPerSecond": 6294.052698711671,
+            "memoryDelta": {
+              "rss": 655360,
+              "heapUsed": -6043768,
+              "heapTotal": 0
+            }
+          },
+          "8": {
+            "batchSize": 8,
+            "seqLen": 32,
+            "totalTimeMs": 673.364204,
+            "avgTimeMs": 33.6682102,
+            "tokensPerSecond": 7603.611789259888,
+            "memoryDelta": {
+              "rss": 26939392,
+              "heapUsed": 7070944,
+              "heapTotal": 8126464
+            }
+          }
+        }
+      },
+      "small": {
+        "config": {
+          "name": "small",
+          "vocabSize": 100,
+          "dModel": 128,
+          "nHeads": 4,
+          "nLayers": 4,
+          "dFF": 256,
+          "maxSeqLen": 64
+        },
+        "batchResults": {
+          "1": {
+            "batchSize": 1,
+            "seqLen": 32,
+            "totalTimeMs": 520.137256,
+            "avgTimeMs": 26.0068628,
+            "tokensPerSecond": 1230.4444502241156,
+            "memoryDelta": {
+              "rss": 655360,
+              "heapUsed": 9416040,
+              "heapTotal": 0
+            }
+          },
+          "2": {
+            "batchSize": 2,
+            "seqLen": 32,
+            "totalTimeMs": 1004.123418,
+            "avgTimeMs": 50.206170900000004,
+            "tokensPerSecond": 1274.7436988866243,
+            "memoryDelta": {
+              "rss": 163840,
+              "heapUsed": -13968552,
+              "heapTotal": -6815744
+            }
+          },
+          "4": {
+            "batchSize": 4,
+            "seqLen": 32,
+            "totalTimeMs": 1850.601395,
+            "avgTimeMs": 92.53006975,
+            "tokensPerSecond": 1383.3340917804724,
+            "memoryDelta": {
+              "rss": 15237120,
+              "heapUsed": -11939640,
+              "heapTotal": 1048576
+            }
+          },
+          "8": {
+            "batchSize": 8,
+            "seqLen": 32,
+            "totalTimeMs": 4035.191928,
+            "avgTimeMs": 201.75959640000002,
+            "tokensPerSecond": 1268.8367967016807,
+            "memoryDelta": {
+              "rss": 1474560,
+              "heapUsed": 4028104,
+              "heapTotal": 4980736
+            }
+          }
+        }
+      },
+      "medium": {
+        "config": {
+          "name": "medium",
+          "vocabSize": 200,
+          "dModel": 256,
+          "nHeads": 8,
+          "nLayers": 6,
+          "dFF": 512,
+          "maxSeqLen": 128
+        },
+        "batchResults": {
+          "1": {
+            "batchSize": 1,
+            "seqLen": 32,
+            "totalTimeMs": 2269.91135,
+            "avgTimeMs": 113.49556749999999,
+            "tokensPerSecond": 281.9493369201401,
+            "memoryDelta": {
+              "rss": 0,
+              "heapUsed": -7454096,
+              "heapTotal": 0
+            }
+          },
+          "2": {
+            "batchSize": 2,
+            "seqLen": 32,
+            "totalTimeMs": 4070.020237,
+            "avgTimeMs": 203.50101185,
+            "tokensPerSecond": 314.4947507542331,
+            "memoryDelta": {
+              "rss": -1167360,
+              "heapUsed": 10660256,
+              "heapTotal": 4456448
+            }
+          },
+          "4": {
+            "batchSize": 4,
+            "seqLen": 32,
+            "totalTimeMs": 8799.529838,
+            "avgTimeMs": 439.97649190000004,
+            "tokensPerSecond": 290.92463428498917,
+            "memoryDelta": {
+              "rss": 16203776,
+              "heapUsed": 3009312,
+              "heapTotal": -2621440
+            }
+          },
+          "8": {
+            "batchSize": 8,
+            "seqLen": 32,
+            "totalTimeMs": 16289.418058,
+            "avgTimeMs": 814.4709028999999,
+            "tokensPerSecond": 314.314482062512,
+            "memoryDelta": {
+              "rss": 10813440,
+              "heapUsed": 6290328,
+              "heapTotal": -262144
+            }
+          }
+        }
+      }
+    },
+    "training": {
+      "config": {
+        "vocabSize": 100,
+        "dModel": 128,
+        "nHeads": 4,
+        "nLayers": 2,
+        "dFF": 256,
+        "maxSeqLen": 64
+      },
+      "batchSize": 4,
+      "seqLen": 32,
+      "steps": 20,
+      "totalTimeMs": 2890.997671,
+      "avgStepTimeMs": 144.5415125,
+      "tokensPerSecond": 885.5074584389038,
+      "losses": {
+        "initial": null,
+        "final": null,
+        "avg": null
+      },
+      "memoryUsage": {
+        "initial": {
+          "rss": 335519744,
+          "heapTotal": 48324608,
+          "heapUsed": 25452040,
+          "external": 42964944,
+          "arrayBuffers": 41198507
+        },
+        "final": {
+          "rss": 335847424,
+          "heapTotal": 51470336,
+          "heapUsed": 25652064,
+          "external": 39839472,
+          "arrayBuffers": 38073035
+        },
+        "delta": {
+          "rss": 327680,
+          "heapUsed": 200024,
+          "heapTotal": 3145728
+        }
+      }
+    },
+    "generation": {
+      "10": {
+        "maxLength": 10,
+        "avgTimeMs": 7.6300985,
+        "tokensPerSecond": 1310.5990702479137,
+        "sampleTexts": [
+          "hellosxllsms sm",
+          "hellosmxlsmt",
+          "hello"
+        ]
+      },
+      "25": {
+        "maxLength": 25,
+        "avgTimeMs": 6.7619088000000005,
+        "tokensPerSecond": 3697.1808906976084,
+        "sampleTexts": [
+          "hello",
+          "hello",
+          "hellorsne"
+        ]
+      },
+      "50": {
+        "maxLength": 50,
+        "avgTimeMs": 30.684981100000005,
+        "tokensPerSecond": 1629.461652169634,
+        "sampleTexts": [
+          "hellostmsynntnoesnenrtlf ntstrntfmmtxlnney n ",
+          "hellomofmsmsmsenrstrnretn nresssrmmrr",
+          "hellosnrr"
+        ]
+      }
+    },
+    "memory": {
+      "config": {
+        "vocabSize": 100,
+        "dModel": 128,
+        "nHeads": 4,
+        "nLayers": 3,
+        "dFF": 256,
+        "maxSeqLen": 64
+      },
+      "snapshots": [
+        {
+          "stage": "baseline",
+          "memory": {
+            "rss": 335757312,
+            "heapTotal": 51470336,
+            "heapUsed": 25601192,
+            "external": 40401720,
+            "arrayBuffers": 38635283
+          }
+        },
+        {
+          "stage": "after_model_creation",
+          "memory": {
+            "rss": 335757312,
+            "heapTotal": 51470336,
+            "heapUsed": 15017656,
+            "external": 33076568,
+            "arrayBuffers": 31310131
+          }
+        },
+        {
+          "stage": "after_optimizer_creation",
+          "memory": {
+            "rss": 335757312,
+            "heapTotal": 51470336,
+            "heapUsed": 16336360,
+            "external": 39981976,
+            "arrayBuffers": 38215539
+          }
+        },
+        {
+          "stage": "after_forward_pass",
+          "memory": {
+            "rss": 335757312,
+            "heapTotal": 51470336,
+            "heapUsed": 13478184,
+            "external": 20500336,
+            "arrayBuffers": 18733899
+          }
+        },
+        {
+          "stage": "after_backward_pass",
+          "memory": {
+            "rss": 335757312,
+            "heapTotal": 51470336,
+            "heapUsed": 19183520,
+            "external": 39993776,
+            "arrayBuffers": 38227339
+          }
+        },
+        {
+          "stage": "after_optimizer_step",
+          "memory": {
+            "rss": 335757312,
+            "heapTotal": 51470336,
+            "heapUsed": 17145936,
+            "external": 39993776,
+            "arrayBuffers": 21284203
+          }
+        }
+      ],
+      "deltas": {
+        "after_model_creation": {
+          "rss": 0,
+          "heapUsed": -10583536,
+          "heapTotal": 0,
+          "external": -7325152
+        },
+        "after_optimizer_creation": {
+          "rss": 0,
+          "heapUsed": 1318704,
+          "heapTotal": 0,
+          "external": 6905408
+        },
+        "after_forward_pass": {
+          "rss": 0,
+          "heapUsed": -2858176,
+          "heapTotal": 0,
+          "external": -19481640
+        },
+        "after_backward_pass": {
+          "rss": 0,
+          "heapUsed": 5705336,
+          "heapTotal": 0,
+          "external": 19493440
+        },
+        "after_optimizer_step": {
+          "rss": 0,
+          "heapUsed": -2037584,
+          "heapTotal": 0,
+          "external": 0
+        }
+      }
+    }
+  },
+  "summary": {
+    "forwardPass": {
+      "tiny": {
+        "avgTimeMs": 19.065768475,
+        "maxThroughput": 7603.611789259888,
+        "paramCount": 72448
+      },
+      "small": {
+        "avgTimeMs": 92.6256749625,
+        "maxThroughput": 1383.3340917804724,
+        "paramCount": 551936
+      },
+      "medium": {
+        "avgTimeMs": 392.8609935375,
+        "maxThroughput": 314.4947507542331,
+        "paramCount": 3254272
+      }
+    },
+    "training": {
+      "avgStepTimeMs": 144.5415125,
+      "tokensPerSecond": 885.5074584389038,
+      "lossReduction": null,
+      "memoryUsageMB": 0.19075775146484375
+    },
+    "generation": {
+      "avgTimeMs": 15.025662800000001,
+      "maxThroughput": 3697.1808906976084
+    },
+    "memory": {
+      "totalMemoryMB": 16.351638793945312,
+      "modelMemoryMB": -10.093246459960938,
+      "peakMemoryMB": 24.415199279785156
+    }
+  }
+}
