@@ -28,7 +28,9 @@
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir types",
     "dev:browser": "webpack serve --config webpack.config.js --mode development",
     "validate": "node validate_parity.js",
-    "benchmark": "node benchmark.js"
+    "benchmark": "node benchmark.js",
+    "build:docs": "mkdir -p docs && cp -r examples/ docs/ && cp README.md docs/",
+    "build:all": "npm run build:browser && npm run build:types && npm run build:docs"
   },
   "jest": {
     "testEnvironment": "node",
@@ -73,6 +75,7 @@
     "webpack-dev-server": "^4.15.0",
     "@babel/core": "^7.22.0",
     "@babel/preset-env": "^7.22.0",
-    "babel-loader": "^9.1.0"
+    "babel-loader": "^9.1.0",
+    "audit-ci": "^7.0.0"
   }
 }
