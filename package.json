@@ -13,14 +13,27 @@
     "train": "node train.js",
     "sample": "node sample.js",
     "plot": "node plot.js",
-    "test": "node test.js",
-    "test:nn": "node tests/test_nn/test_modules.js",
-    "test:optim": "node tests/test_optim/test_optimizer.js",
-    "test:tokenizer": "node tests/test_tokenizer/test_tokenizer.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:nn": "jest tests/test_nn",
+    "test:optim": "jest tests/test_optim",
+    "test:tokenizer": "jest tests/test_tokenizer",
     "lint": "eslint src/ *.js",
     "lint:fix": "eslint src/ *.js --fix",
     "format": "prettier --write src/ *.js",
     "format:check": "prettier --check src/ *.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "extensionsToTreatAsEsm": [".js"],
+    "globals": {
+      "NODE_OPTIONS": "--experimental-vm-modules"
+    },
+    "moduleNameMapping": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   },
   "repository": {
     "type": "git",
@@ -43,6 +56,7 @@
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
+    "jest": "^30.0.0",
     "prettier": "^3.5.3"
   }
 }
