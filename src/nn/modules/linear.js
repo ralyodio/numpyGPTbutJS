@@ -51,21 +51,18 @@ export class Linear extends Module {
 
         this.cacheInput = X;
 
-        if (X.rows === 1 && X.columns === this.inFeatures) {
-            // 2D case: (B, in_features)
-            const out = X.mmul(this.W).add(this.b);
-            return out;
-        } else {
-            // Handle 3D case: (B, T, in_features) - flatten to (B*T, in_features)
-            const originalShape = [X.rows, X.columns];
-            const XReshaped = X.reshape(X.rows * X.columns / this.inFeatures, this.inFeatures);
-            const out = XReshaped.mmul(this.W).add(this.b);
-
-            // Reshape back to (B, T, out_features)
-            const newRows = originalShape[0];
-            const newCols = this.outFeatures;
-            return out.reshape(newRows, newCols);
+        // Standard 2D matrix multiplication: (batch_size, in_features) @ (in_features, out_features)
+        const out = X.mmul(this.W);
+        
+        // Add bias to each row
+        const result = Matrix.zeros(out.rows, out.columns);
+        for (let i = 0; i < out.rows; i++) {
+            for (let j = 0; j < out.columns; j++) {
+                result.set(i, j, out.get(i, j) + this.b.get(0, j));
+            }
         }
+        
+        return result;
     }
 
     /**
@@ -80,26 +77,20 @@ export class Linear extends Module {
             dZ = new Matrix(dZ);
         }
 
-        if (X.rows === 1 && X.columns === this.inFeatures) {
-            // 2D case
-            // Y = XW + b, so ∂Y/∂W = X^T, ∂Y/∂b = I, ∂Y/∂X = W^T
-            this.dW = X.transpose().mmul(dZ);  // ∂L/∂W = X^T @ ∂L/∂Y
-            this.db = dZ.sum('column');        // ∂L/∂b = Σ ∂L/∂Y
-
-            return dZ.mmul(this.W.transpose()); // ∂L/∂X = ∂L/∂Y @ W^T
-        } else {
-            // 3D case - flatten and process
-            const originalShape = [X.rows, X.columns];
-            const XReshaped = X.reshape(X.rows * X.columns / this.inFeatures, this.inFeatures);
-            const dZReshaped = dZ.reshape(dZ.rows * dZ.columns / this.outFeatures, this.outFeatures);
-
-            // Y = XW + b, so ∂Y/∂W = X^T, ∂Y/∂b = I, ∂Y/∂X = W^T
-            this.dW = XReshaped.transpose().mmul(dZReshaped);  // ∂L/∂W = X^T @ ∂L/∂Y
-            this.db = dZReshaped.sum('column');               // ∂L/∂b = Σ ∂L/∂Y
-
-            const dXReshaped = dZReshaped.mmul(this.W.transpose()); // ∂L/∂X = ∂L/∂Y @ W^T
-            return dXReshaped.reshape(originalShape[0], originalShape[1]);
+        // Y = XW + b, so ∂Y/∂W = X^T, ∂Y/∂b = I, ∂Y/∂X = W^T
+        this.dW = X.transpose().mmul(dZ);  // ∂L/∂W = X^T @ ∂L/∂Y
+        
+        // ∂L/∂b = sum of gradients across batch dimension
+        this.db = Matrix.zeros(1, this.outFeatures);
+        for (let j = 0; j < this.outFeatures; j++) {
+            let sum = 0;
+            for (let i = 0; i < dZ.rows; i++) {
+                sum += dZ.get(i, j);
+            }
+            this.db.set(0, j, sum);
         }
+        
+        return dZ.mmul(this.W.transpose()); // ∂L/∂X = ∂L/∂Y @ W^T
     }
 
     /**
