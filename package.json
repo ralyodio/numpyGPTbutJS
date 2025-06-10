@@ -1,0 +1,37 @@
+{
+  "name": "numpygpt-js",
+  "version": "1.0.0",
+  "description": "GPT from scratch. Pure JavaScript/Node.js implementation with explicit gradients.",
+  "main": "src/index.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "datagen": "node datagen.js",
+    "train": "node train.js",
+    "sample": "node sample.js",
+    "plot": "node plot.js",
+    "test": "node test.js",
+    "test:nn": "node tests/test_nn/test_modules.js",
+    "test:optim": "node tests/test_optim/test_optimizer.js",
+    "test:tokenizer": "node tests/test_tokenizer/test_tokenizer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codiceSpaghetti/numpyGPT.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codiceSpaghetti/numpyGPT/issues"
+  },
+  "homepage": "https://github.com/codiceSpaghetti/numpyGPT#readme",
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "fs-extra": "^11.3.0",
+    "ml-matrix": "^6.12.1"
+  }
+}
